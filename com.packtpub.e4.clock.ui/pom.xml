@@ -1,27 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.packtpub.e4</groupId>
   <artifactId>com.packtpub.e4.clock.ui</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
+  <properties>
+    <java.version>11</java.version>
+    <tycho.version>2.5.0</tycho.version>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+  </properties>
   <build>
     <plugins>
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
-        <version>0.25.0</version>
+        <version>${tycho.version}</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>
   </build>
   <repositories>
     <repository>
-      <id>neon</id>
+      <id>latest</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/neon/</url>
+      <url>https://download.eclipse.org/releases/latest/</url>
+    </repository>
+    <repository>
+      <id>2021-12</id>
+      <layout>p2</layout>
+      <url>https://download.eclipse.org/releases/2021-12/</url>
+    </repository>
+    <repository>
+      <id>2021-09</id>
+      <layout>p2</layout>
+      <url>https://download.eclipse.org/releases/2021-09/</url>
     </repository>
   </repositories>
   <!-- repository>
