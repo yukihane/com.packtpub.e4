@@ -7,10 +7,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>eclipse-plugin</packaging>
   <properties>
-    <java.version>11</java.version>
     <tycho.version>2.5.0</tycho.version>
-    <maven.compiler.target>${java.version}</maven.compiler.target>
-    <maven.compiler.source>${java.version}</maven.compiler.source>
   </properties>
   <build>
     <plugins>
