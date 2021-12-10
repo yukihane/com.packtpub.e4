@@ -8,6 +8,9 @@
             cardinality="singleton-global"
             thread="main"
             visible="true">
+         <run
+               class="com.packtpub.e4.headless.application.Application1">
+         </run>
       </application>
    </extension>
 
