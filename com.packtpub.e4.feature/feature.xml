@@ -17,6 +17,10 @@
       [Enter License Description here.]
    </license>
 
+   <requires>
+      <import feature="org.eclipse.jgit" version="4.0.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="com.packtpub.e4.clock.ui"
          download-size="0"
