@@ -2,3 +2,9 @@
 .DS_Store
 bin
 target
+.vscode/
+/com.packtpub.e4.update/artifacts.jar
+/com.packtpub.e4.update/content.jar
+/com.packtpub.e4.update/features/
+/com.packtpub.e4.update/plugins/
+
