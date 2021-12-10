@@ -19,6 +19,10 @@
       <product
             application="com.packtpub.e4.headless.application.id"
             name="Headless Product">
+         <property
+               name="appName"
+               value="Headless Product">
+         </property>
       </product>
    </extension>
 
