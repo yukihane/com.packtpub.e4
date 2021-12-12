@@ -1,5 +1,6 @@
 package com.packtpub.e4.clock.ui;
 
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
@@ -12,15 +13,13 @@ import org.osgi.framework.BundleContext;
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
-
+    private TrayItem trayItem;
+    private Image image;
     // The plug-in ID
     public static final String PLUGIN_ID = "com.packtpub.e4.clock.ui"; //$NON-NLS-1$
 
     // The shared instance
     private static Activator plugin;
-
-    private TrayItem trayItem;
-    private Image image;
 
     /**
      * The constructor
@@ -28,11 +27,16 @@ public class Activator extends AbstractUIPlugin {
     public Activator() {
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.
+     * BundleContext)
+     */
     @Override
     public void start(final BundleContext context) throws Exception {
         super.start(context);
         plugin = this;
-
         final Display display = Display.getDefault();
         display.asyncExec(() -> {
             image = new Image(display, Activator.class.getResourceAsStream("/icons/sample.png"));
@@ -47,10 +51,23 @@ public class Activator extends AbstractUIPlugin {
         });
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.
+     * BundleContext)
+     */
     @Override
     public void stop(final BundleContext context) throws Exception {
         plugin = null;
+        if (trayItem != null) {
+            Display.getDefault().asyncExec(trayItem::dispose);
+        }
+        if (image != null) {
+            Display.getDefault().asyncExec(image::dispose);
+        }
         super.stop(context);
+
     }
 
     /**
@@ -62,4 +79,15 @@ public class Activator extends AbstractUIPlugin {
         return plugin;
     }
 
+    /**
+     * Returns an image descriptor for the image file at the given plug-in
+     * relative path
+     *
+     * @param path
+     * the path
+     * @return the image descriptor
+     */
+    public static ImageDescriptor getImageDescriptor(final String path) {
+        return imageDescriptorFromPlugin(PLUGIN_ID, path);
+    }
 }
