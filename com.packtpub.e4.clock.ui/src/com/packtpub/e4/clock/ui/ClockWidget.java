@@ -5,12 +5,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 public class ClockWidget extends Canvas {
-    public ClockWidget(final Composite parent, final int style) {
+    private final Color color;
+
+    public ClockWidget(final Composite parent, final int style, final RGB rgb) {
         super(parent, style);
+        // FIXME color is leaked!
+        this.color = new Color(parent.getDisplay(), rgb);
         addPaintListener(this::drawClock);
         final Runnable redraw = () -> {
             while (!this.isDisposed()) {
@@ -30,13 +35,11 @@ public class ClockWidget extends Canvas {
         e.gc.drawArc(e.x, e.y, e.width - 1, e.height - 1, 0, 360);
         final int seconds = LocalTime.now().getSecond();
         final int arc = (15 - seconds) * 6 % 360;
-        final Color blue = e.display.getSystemColor(SWT.COLOR_BLUE);
-        e.gc.setBackground(blue);
+        e.gc.setBackground(color);
         e.gc.fillArc(e.x, e.y, e.width - 1, e.height - 1, arc - 1, 2);
     }
 
-    @Override
-    public Point computeSize(final int w, final int h, final boolean changed) {
+    @Override public Point computeSize(final int w, final int h, final boolean changed) {
         int size;
         if (w == SWT.DEFAULT) {
             size = h;
