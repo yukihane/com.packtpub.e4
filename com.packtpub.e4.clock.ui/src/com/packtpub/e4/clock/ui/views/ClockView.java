@@ -13,6 +13,19 @@ public class ClockView extends ViewPart {
     public void createPartControl(final Composite parent) {
         final Canvas clock = new Canvas(parent, SWT.NONE);
         clock.addPaintListener(this::drawClock);
+        final Runnable redraw = () -> {
+            while (!clock.isDisposed()) {
+                clock.getDisplay().asyncExec(() -> clock.redraw());
+                try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException e) {
+                    return;
+                }
+
+            }
+        };
+        new Thread(redraw, "TickTock").start();
+
     }
 
     private void drawClock(final PaintEvent e) {
