@@ -35,6 +35,9 @@ public class ClockView extends ViewPart {
     private Action action2;
     private Action doubleClickAction;
 
+    @Inject
+    private IWorkbench workbench;
+
     class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
         @Override
         public String getColumnText(final Object obj, final int index) {
