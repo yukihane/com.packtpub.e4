@@ -1,6 +1,7 @@
 package com.packtpub.e4.clock.ui;
 
-import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
@@ -11,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public class ClockWidget extends Canvas {
     private final Color color;
+    private ZoneId zone = ZoneId.systemDefault();
 
     public ClockWidget(final Composite parent, final int style, final RGB rgb) {
         super(parent, style);
@@ -33,10 +35,15 @@ public class ClockWidget extends Canvas {
 
     private void drawClock(final PaintEvent e) {
         e.gc.drawArc(e.x, e.y, e.width - 1, e.height - 1, 0, 360);
-        final int seconds = LocalTime.now().getSecond();
-        final int arc = (15 - seconds) * 6 % 360;
+        final ZonedDateTime now = ZonedDateTime.now(zone);
+        final int seconds = now.getSecond();
+        int arc = (15 - seconds) * 6 % 360;
         e.gc.setBackground(color);
         e.gc.fillArc(e.x, e.y, e.width - 1, e.height - 1, arc - 1, 2);
+        e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_BLACK));
+        final int hours = now.getHour();
+        arc = (3 - hours) * 30 % 360;
+        e.gc.fillArc(e.x, e.y, e.width - 1, e.height - 1, arc - 5, 10);
     }
 
     @Override
@@ -53,6 +60,10 @@ public class ClockWidget extends Canvas {
             size = 50;
         }
         return new Point(size, size);
+    }
+
+    public void setZone(final ZoneId zone) {
+        this.zone = zone;
     }
 
     // This does not work - add a dispose listener instead

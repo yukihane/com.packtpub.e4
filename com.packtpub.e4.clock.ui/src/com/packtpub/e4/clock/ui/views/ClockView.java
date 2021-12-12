@@ -3,6 +3,8 @@ package com.packtpub.e4.clock.ui.views;
 import com.packtpub.e4.clock.ui.ClockWidget;
 import java.time.ZoneId;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.RowData;
@@ -37,6 +39,20 @@ public class ClockView extends ViewPart {
         for (final String zone : ZoneId.getAvailableZoneIds()) {
             timeZones.add(zone);
         }
+        timeZones.addSelectionListener(new SelectionListener() {
+            @Override
+            public void widgetSelected(final SelectionEvent e) {
+                final String id = timeZones.getText();
+                clock3.setZone(ZoneId.of(id));
+                clock3.redraw();
+            }
+
+            @Override
+            public void widgetDefaultSelected(final SelectionEvent e) {
+                clock3.setZone(ZoneId.systemDefault());
+                clock3.redraw();
+            }
+        });
     }
 
     @Override
