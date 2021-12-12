@@ -14,8 +14,8 @@ public class ClockWidget extends Canvas {
 
     public ClockWidget(final Composite parent, final int style, final RGB rgb) {
         super(parent, style);
-        // FIXME color is leaked!
         this.color = new Color(parent.getDisplay(), rgb);
+        addDisposeListener(e -> color.dispose());
         addPaintListener(this::drawClock);
         final Runnable redraw = () -> {
             while (!this.isDisposed()) {
@@ -39,7 +39,8 @@ public class ClockWidget extends Canvas {
         e.gc.fillArc(e.x, e.y, e.width - 1, e.height - 1, arc - 1, 2);
     }
 
-    @Override public Point computeSize(final int w, final int h, final boolean changed) {
+    @Override
+    public Point computeSize(final int w, final int h, final boolean changed) {
         int size;
         if (w == SWT.DEFAULT) {
             size = h;
@@ -53,4 +54,12 @@ public class ClockWidget extends Canvas {
         }
         return new Point(size, size);
     }
+
+    // This does not work - add a dispose listener instead
+    // @Override
+    // public void dispose() {
+    // if (color != null && !color.isDisposed())
+    // color.dispose();
+    // super.dispose();
+    // }
 }
