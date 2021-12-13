@@ -8,6 +8,8 @@ import java.util.Set;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
@@ -24,9 +26,12 @@ public class TimeZoneView extends ViewPart {
         timeZones.forEach((region, zones) -> {
             final CTabItem item = new CTabItem(tabs, SWT.NONE);
             item.setText(region);
-            final Composite clocks = new Composite(tabs, SWT.NONE);
+            final ScrolledComposite scrolled = new ScrolledComposite(tabs, SWT.H_SCROLL | SWT.V_SCROLL);
+            final Composite clocks = new Composite(scrolled, SWT.NONE);
+            clocks.setBackground(clocks.getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+            item.setControl(scrolled);
+            scrolled.setContent(clocks);
             clocks.setLayout(new RowLayout());
-            item.setControl(clocks);
             final RGB rgb = new RGB(128, 128, 128);
             zones.forEach(zone -> {
                 final Group group = new Group(clocks, SWT.SHADOW_ETCHED_IN);
@@ -34,6 +39,10 @@ public class TimeZoneView extends ViewPart {
                 group.setLayout(new FillLayout());
                 new ClockWidget(group, SWT.NONE, rgb).setZone(zone);
             });
+            final Point size = clocks.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+            scrolled.setMinSize(size);
+            scrolled.setExpandHorizontal(true);
+            scrolled.setExpandVertical(true);
         });
         tabs.setSelection(0);
     }
