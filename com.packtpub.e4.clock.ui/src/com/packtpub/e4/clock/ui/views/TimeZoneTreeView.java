@@ -2,6 +2,7 @@ package com.packtpub.e4.clock.ui.views;
 
 import com.packtpub.e4.clock.ui.internal.TimeZoneComparator;
 import com.packtpub.e4.clock.ui.internal.TimeZoneViewerComparator;
+import com.packtpub.e4.clock.ui.internal.TimeZoneViewerFilter;
 import java.net.URL;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.ISharedImages;
@@ -37,6 +39,8 @@ public class TimeZoneTreeView {
         treeViewer.setInput(new Object[] { TimeZoneComparator.getTimeZones() });
         treeViewer.setData("REVERSE", Boolean.TRUE);
         treeViewer.setComparator(new TimeZoneViewerComparator());
+        treeViewer.setFilters(new ViewerFilter[] { new TimeZoneViewerFilter("GMT") });
+        treeViewer.setExpandPreCheckFilters(true);
     }
 
     @Focus
