@@ -8,7 +8,9 @@ import java.net.URL;
 import java.time.ZoneId;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -30,6 +32,9 @@ public class TimeZoneTreeView {
     private TreeViewer treeViewer;
     @Inject
     private ISharedImages images;
+    @Inject
+    @Optional
+    private ESelectionService selectionService;
 
     @PostConstruct
     public void create(final Composite parent) {
@@ -61,6 +66,13 @@ public class TimeZoneTreeView {
                 final ZoneId timeZone = (ZoneId) selectedValue;
                 // MessageDialog.openInformation(shell, timeZone.getId(), timeZone.toString());
                 new TimeZoneDialog(shell, timeZone).open();
+            }
+        });
+        treeViewer.addSelectionChangedListener(event -> {
+            // forward selection
+            final Object selection = ((IStructuredSelection) event.getSelection()).getFirstElement();
+            if (selection != null && selectionService != null) {
+                selectionService.setSelection(selection);
             }
         });
     }
