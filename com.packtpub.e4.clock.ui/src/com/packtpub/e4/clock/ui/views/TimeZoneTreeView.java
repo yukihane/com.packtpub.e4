@@ -1,6 +1,7 @@
 package com.packtpub.e4.clock.ui.views;
 
 import com.packtpub.e4.clock.ui.internal.TimeZoneComparator;
+import com.packtpub.e4.clock.ui.internal.TimeZoneDialog;
 import com.packtpub.e4.clock.ui.internal.TimeZoneViewerComparator;
 import com.packtpub.e4.clock.ui.internal.TimeZoneViewerFilter;
 import java.net.URL;
@@ -8,7 +9,6 @@ import java.time.ZoneId;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -59,7 +59,8 @@ public class TimeZoneTreeView {
             }
             if (selectedValue instanceof ZoneId) {
                 final ZoneId timeZone = (ZoneId) selectedValue;
-                MessageDialog.openInformation(shell, timeZone.getId(), timeZone.toString());
+                // MessageDialog.openInformation(shell, timeZone.getId(), timeZone.toString());
+                new TimeZoneDialog(shell, timeZone).open();
             }
         });
     }
